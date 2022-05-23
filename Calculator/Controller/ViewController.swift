@@ -11,9 +11,11 @@ class ViewController: UIViewController {
 
     var value1 : Float = 0
     var value2 : Float = 0
+    var previousValue : Float = 0
     var result : Float = 0
     var resultText : String = "0"
     var currentSign : String = ""
+    var equalClicked = false
     
     @IBOutlet weak var ResultLabel: UILabel!
     @IBOutlet weak var divideSignButton: UIButton!
@@ -43,14 +45,13 @@ class ViewController: UIViewController {
  
     @IBAction func numberOnClicked(_ sender: UIButton) {
         let number = sender.currentTitle!
-         if resultTextIsZero() == true || buttonsIsSelected() == true  || currentSign == "="{
+         if resultTextIsZero() == true || buttonsIsSelected() == true  || equalClicked != false{
             resultText = "\(number)"
             setButtonsIsSelectedFalse()
         }else {
             resultText = "\(resultText)\(number)"
         }
-        
-        if currentSign == "=" {currentSign = ""}
+        if equalClicked != false {equalClicked = false}
         updateUI()
     }
     
@@ -116,9 +117,8 @@ class ViewController: UIViewController {
     
     @IBAction func equalOnClicked(_ sender: UIButton) {
         setButtonsIsSelectedFalse()
+        equalClicked = true
         calculate()
-        value1 = 0
-        currentSign = "="
         updateUI()
     }
     
@@ -139,6 +139,7 @@ class ViewController: UIViewController {
     }
     
     func calculate(){
+        if previousValue != 0 {resultText = String(previousValue)}
         if currentSign == "/" {
             value2 = Float(resultText)!
             value1 = value1 / value2
@@ -152,6 +153,7 @@ class ViewController: UIViewController {
             value2 = Float(resultText)!
             value1 = value1 + value2
         }
+        previousValue = value2
         value2 = 0
         resultText = String(value1.cleanZero)
     }
