@@ -9,9 +9,9 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var value1 : Float = 0
-    var value2 : Float = 0
-    var previousValue : Float = 0
+    var firstValue : Float = 0
+    var secondValue : Float = 0
+    var storageValue : Float = 0
     var result : Float = 0
     var resultText : String = "0"
     var currentSign : String = ""
@@ -31,7 +31,7 @@ class ViewController: UIViewController {
     
     func updateUI(){
         ResultLabel.text = resultText
-        if value1 == 0 {
+        if firstValue == 0 {
           setButtonsIsSelectedFalse()
         }
         
@@ -50,9 +50,9 @@ class ViewController: UIViewController {
     }
     func clearAll() {
         resultText = "0"
-        value1 = 0
-        value2 = 0
-        previousValue = 0
+        firstValue = 0
+        secondValue = 0
+        storageValue = 0
     }
     func setButtonsIsSelectedFalse() {
         additionSignButton.isSelected = false
@@ -71,24 +71,24 @@ class ViewController: UIViewController {
     
     func calculate(){
         if currentSign == "/" {
-            value2 = Float(resultText)!
-            value1 = value1 / value2
+            secondValue = Float(resultText)!
+            firstValue = firstValue / secondValue
         }else if currentSign == "X"{
-            value2 = Float(resultText)!
-            value1 = value1 * value2
+            secondValue = Float(resultText)!
+            firstValue = firstValue * secondValue
         }else if currentSign == "-"{
-            value2 = Float(resultText)!
-            value1 = value1 - value2
+            secondValue = Float(resultText)!
+            firstValue = firstValue - secondValue
         }else if currentSign == "+"{
-            value2 = Float(resultText)!
-            value1 = value1 + value2
+            secondValue = Float(resultText)!
+            firstValue = firstValue + secondValue
         }
-        previousValue = value2
-        value2 = 0
-        if String(value1).count > 10 {
-            resultText = String(Float(value1.cleanZero)!.scentificStyle)
+        storageValue = secondValue
+        secondValue = 0
+        if String(firstValue).count > 10 {
+            resultText = String(Float(firstValue.cleanDecimalZero)!.scentificStyle)
         }else{
-            resultText = String(value1.cleanZero)
+            resultText = String(firstValue.cleanDecimalZero)
         }
         
     }
@@ -147,13 +147,13 @@ class ViewController: UIViewController {
         }else {
             if resultTextIsZero() == true || resultText.count == 1{
                 resultText = "0"
-                value1 = Float(resultText)!
+                firstValue = Float(resultText)!
             }else{
                 resultText.removeLast()
                 if resultText.last == "."{
                     resultText.removeLast()
                 }
-                value1 = Float(resultText)!
+                firstValue = Float(resultText)!
             }
         }
        
@@ -179,8 +179,8 @@ class ViewController: UIViewController {
             additionSignButton.isSelected = true
         }
         
-        if value1 == 0 {
-            value1 = Float(resultText)!
+        if firstValue == 0 {
+            firstValue = Float(resultText)!
         }else {
             if isTypedNewNumber == true {
                 calculate()
@@ -195,7 +195,7 @@ class ViewController: UIViewController {
     @IBAction func equalOnClicked(_ sender: UIButton) {
         setButtonsIsSelectedFalse()
         equalClicked = true
-        if previousValue != 0 {resultText = String(previousValue)}
+        if storageValue != 0 {resultText = String(storageValue)}
         calculate()
         updateUI()
     }
@@ -205,7 +205,7 @@ class ViewController: UIViewController {
 }
 
 extension Float {
-    var cleanZero: String {
+    var cleanDecimalZero: String {
        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
     }
     struct Number {
