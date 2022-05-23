@@ -35,7 +35,12 @@ class ViewController: UIViewController {
           setButtonsIsSelectedFalse()
         }
         
-    }
+        if ResultLabel.numberOfVisibleLines > 2 {
+            ResultLabel.font = .systemFont(ofSize: 45)
+        } else {
+            ResultLabel.font = .systemFont(ofSize: 55)
+        }
+   }
     func resultTextIsZero()-> Bool{
         if resultText == "0" {
             return true
@@ -212,5 +217,13 @@ extension Float {
         Number.formatter.exponentSymbol = "e"
         let number = NSNumber(value: self)
         return Number.formatter.string(from :number) ?? ""
+    }
+}
+extension UILabel {
+    var numberOfVisibleLines: Int {
+        let maxSize = CGSize(width: frame.size.width, height: CGFloat(MAXFLOAT))
+        let textHeight = sizeThatFits(maxSize).height
+        let lineHeight = font.lineHeight
+        return Int(ceil(textHeight / lineHeight))
     }
 }
