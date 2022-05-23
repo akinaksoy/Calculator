@@ -37,7 +37,7 @@ class ViewController: UIViewController {
         
     }
     func resultTextIsZero()-> Bool{
-        if Float(resultText)! == 0 {
+        if resultText == "0" {
             return true
         }else {
             return false
@@ -62,9 +62,12 @@ class ViewController: UIViewController {
         if resultText.contains(".") != true {
             setButtonsIsSelectedFalse()
             resultText = "\(resultText)\(character)"
-            if currentSign == "=" {currentSign = ""}
-            updateUI()
+         }
+        if equalClicked != false {
+            resultText = "0."
+            equalClicked = false
         }
+        updateUI()
     }
     
 
