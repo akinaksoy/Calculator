@@ -73,8 +73,16 @@ class ViewController: UIViewController {
     }
     
     @IBAction func getPercentOnClicked(_ sender: UIButton) {
-        calculator.resultText = String(Double(calculator.resultText)!/1000)
-        updateUI()
+        if buttonsIsSelected() == false {
+            if calculator.firstValue == Float(calculator.resultText){
+                calculator.resultText = (Float(calculator.resultText)!/100).cleanDecimalZero
+                calculator.firstValue = Float(calculator.resultText)!
+            }else {
+                calculator.resultText = (Float(calculator.resultText)!/100).cleanDecimalZero
+            }
+            
+            updateUI()
+        }
     }
     
     @IBAction func signButtonOnClicked(_ sender: UIButton) {
