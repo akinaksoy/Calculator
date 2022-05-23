@@ -156,8 +156,7 @@ class ViewController: UIViewController {
                 firstValue = Float(resultText)!
             }
         }
-       
-        updateUI()
+       updateUI()
     }
     
     @IBAction func getPercentOnClicked(_ sender: UIButton) {
@@ -186,7 +185,6 @@ class ViewController: UIViewController {
                 calculate()
                 isTypedNewNumber = false
             }
-            
         }
         updateUI()
         currentSign = newSign
@@ -200,17 +198,14 @@ class ViewController: UIViewController {
         updateUI()
     }
     
-    
-   
 }
 
 extension Float {
     var cleanDecimalZero: String {
        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
     }
-    struct Number {
-            static var formatter = NumberFormatter()
-        }
+    struct Number {static var formatter = NumberFormatter()}
+    
     var scentificStyle: String {
         Number.formatter.numberStyle = .scientific
         Number.formatter.positiveFormat = "0.#########E+0"
