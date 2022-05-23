@@ -9,9 +9,9 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var value1 : Double = 0
-    var value2 : Double = 0
-    var result : Double = 0
+    var value1 : Float = 0
+    var value2 : Float = 0
+    var result : Float = 0
     var resultText : String = "0"
     var currentSign : String = ""
     
@@ -66,13 +66,13 @@ class ViewController: UIViewController {
     @IBAction func deleteOnClicked(_ sender: UIButton) {
         if resultTextIsZero() == true || resultText.count == 1{
             resultText = "0"
-            value1 = Double(resultText)!
+            value1 = Float(resultText)!
         }else{
             resultText.removeLast()
             if resultText.last == "."{
                 resultText.removeLast()
             }
-            value1 = Double(resultText)!
+            value1 = Float(resultText)!
         }
         updateUI()
     }
@@ -97,7 +97,7 @@ class ViewController: UIViewController {
         }
         
         if value1 == 0 {
-            value1 = Double(resultText)!
+            value1 = Float(resultText)!
         }else {
             calculate()
         }
@@ -131,20 +131,25 @@ class ViewController: UIViewController {
     
     func calculate(){
         if currentSign == "/" {
-            value2 = Double(resultText)!
+            value2 = Float(resultText)!
             value1 = value1 / value2
         }else if currentSign == "X"{
-            value2 = Double(resultText)!
+            value2 = Float(resultText)!
             value1 = value1 * value2
         }else if currentSign == "-"{
-            value2 = Double(resultText)!
+            value2 = Float(resultText)!
             value1 = value1 - value2
         }else if currentSign == "+"{
-            value2 = Double(resultText)!
+            value2 = Float(resultText)!
             value1 = value1 + value2
         }
         value2 = 0
-        resultText = String(value1)
+        resultText = String(value1.cleanZero)
     }
 }
 
+extension Float {
+    var cleanZero: String {
+       return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
+    }
+}
