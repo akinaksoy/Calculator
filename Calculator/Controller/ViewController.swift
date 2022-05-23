@@ -15,6 +15,7 @@ class ViewController: UIViewController {
     var result : Float = 0
     var resultText : String = "0"
     var currentSign : String = ""
+    var isTypedNewNumber = false
     var equalClicked = false
     
     @IBOutlet weak var ResultLabel: UILabel!
@@ -52,6 +53,7 @@ class ViewController: UIViewController {
             resultText = "\(resultText)\(number)"
         }
         if equalClicked != false {equalClicked = false}
+        isTypedNewNumber = true
         updateUI()
     }
     
@@ -70,6 +72,7 @@ class ViewController: UIViewController {
         resultText = "0"
         value1 = 0
         value2 = 0
+        previousValue = 0
         updateUI()
     }
     
@@ -109,7 +112,11 @@ class ViewController: UIViewController {
         if value1 == 0 {
             value1 = Float(resultText)!
         }else {
-            calculate()
+            if isTypedNewNumber == true {
+                calculate()
+                isTypedNewNumber = false
+            }
+            
         }
         updateUI()
         currentSign = newSign
@@ -118,6 +125,7 @@ class ViewController: UIViewController {
     @IBAction func equalOnClicked(_ sender: UIButton) {
         setButtonsIsSelectedFalse()
         equalClicked = true
+        if previousValue != 0 {resultText = String(previousValue)}
         calculate()
         updateUI()
     }
@@ -139,7 +147,6 @@ class ViewController: UIViewController {
     }
     
     func calculate(){
-        if previousValue != 0 {resultText = String(previousValue)}
         if currentSign == "/" {
             value2 = Float(resultText)!
             value1 = value1 / value2
