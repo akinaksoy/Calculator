@@ -43,6 +43,65 @@ class ViewController: UIViewController {
             return false
         }
     }
+    func clearAll() {
+        resultText = "0"
+        value1 = 0
+        value2 = 0
+        previousValue = 0
+    }
+    func setButtonsIsSelectedFalse() {
+        additionSignButton.isSelected = false
+        subtractionSignButton.isSelected = false
+        multiplySignButton.isSelected = false
+        divideSignButton.isSelected = false
+    }
+    
+    func buttonsIsSelected()-> Bool {
+        if additionSignButton.isSelected == true || subtractionSignButton.isSelected == true || multiplySignButton.isSelected == true ||  divideSignButton.isSelected == true {
+            return true
+        }else {
+            return false
+        }
+    }
+    
+    func calculate(){
+        if currentSign == "/" {
+            value2 = Float(resultText)!
+            value1 = value1 / value2
+        }else if currentSign == "X"{
+            value2 = Float(resultText)!
+            value1 = value1 * value2
+        }else if currentSign == "-"{
+            value2 = Float(resultText)!
+            value1 = value1 - value2
+        }else if currentSign == "+"{
+            value2 = Float(resultText)!
+            value1 = value1 + value2
+        }
+        previousValue = value2
+        value2 = 0
+        if String(value1).count > 10 {
+            resultText = String(Float(value1.cleanZero)!.scentificStyle)
+        }else{
+            resultText = String(value1.cleanZero)
+        }
+        
+    }
+    
+    func checkEnteredValue(valueToCheck : String) -> String{
+        var newValue = valueToCheck
+        if newValue.contains(".") == true{
+            if newValue.count > 10 {
+                newValue.removeLast()
+            }
+        }else {
+            if newValue.count > 9 {
+                newValue.removeLast()
+            }
+        }
+        return newValue
+    }
+    
  
     @IBAction func numberOnClicked(_ sender: UIButton) {
         let number = sender.currentTitle!
@@ -73,24 +132,26 @@ class ViewController: UIViewController {
     
 
     @IBAction func ResetOnClicked(_ sender: UIButton) {
-        resultText = "0"
-        value1 = 0
-        value2 = 0
-        previousValue = 0
+        clearAll()
         updateUI()
     }
     
     @IBAction func deleteOnClicked(_ sender: UIButton) {
-        if resultTextIsZero() == true || resultText.count == 1{
-            resultText = "0"
-            value1 = Float(resultText)!
-        }else{
-            resultText.removeLast()
-            if resultText.last == "."{
+        if resultText.contains("e"){
+            clearAll()
+        }else {
+            if resultTextIsZero() == true || resultText.count == 1{
+                resultText = "0"
+                value1 = Float(resultText)!
+            }else{
                 resultText.removeLast()
+                if resultText.last == "."{
+                    resultText.removeLast()
+                }
+                value1 = Float(resultText)!
             }
-            value1 = Float(resultText)!
         }
+       
         updateUI()
     }
     
@@ -135,57 +196,21 @@ class ViewController: UIViewController {
     }
     
     
-    func setButtonsIsSelectedFalse() {
-        additionSignButton.isSelected = false
-        subtractionSignButton.isSelected = false
-        multiplySignButton.isSelected = false
-        divideSignButton.isSelected = false
-    }
-    
-    func buttonsIsSelected()-> Bool {
-        if additionSignButton.isSelected == true || subtractionSignButton.isSelected == true || multiplySignButton.isSelected == true ||  divideSignButton.isSelected == true {
-            return true
-        }else {
-            return false
-        }
-    }
-    
-    func calculate(){
-        if currentSign == "/" {
-            value2 = Float(resultText)!
-            value1 = value1 / value2
-        }else if currentSign == "X"{
-            value2 = Float(resultText)!
-            value1 = value1 * value2
-        }else if currentSign == "-"{
-            value2 = Float(resultText)!
-            value1 = value1 - value2
-        }else if currentSign == "+"{
-            value2 = Float(resultText)!
-            value1 = value1 + value2
-        }
-        previousValue = value2
-        value2 = 0
-        resultText = String(value1.cleanZero)
-    }
-    
-    func checkEnteredValue(valueToCheck : String) -> String{
-        var newValue = valueToCheck
-        if newValue.contains(".") == true{
-            if newValue.count > 10 {
-                newValue.removeLast()
-            }
-        }else {
-            if newValue.count > 9 {
-                newValue.removeLast()
-            }
-        }
-        return newValue
-    }
+   
 }
 
 extension Float {
     var cleanZero: String {
        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
+    }
+    struct Number {
+            static var formatter = NumberFormatter()
+        }
+    var scentificStyle: String {
+        Number.formatter.numberStyle = .scientific
+        Number.formatter.positiveFormat = "0.#########E+0"
+        Number.formatter.exponentSymbol = "e"
+        let number = NSNumber(value: self)
+        return Number.formatter.string(from :number) ?? ""
     }
 }
