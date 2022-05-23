@@ -58,14 +58,16 @@ class ViewController: UIViewController {
         }else {
             if resultTextIsZero() == true || calculator.resultText.count == 1{
                 calculator.resultText = "0"
-                calculator.firstValue = Float(calculator.resultText)!
             }else{
                 calculator.resultText.removeLast()
                 if calculator.resultText.last == "."{
                     calculator.resultText.removeLast()
                 }
-                calculator.firstValue = Float(calculator.resultText)!
+             }
+            if calculator.firstValue == calculator.storageValue {
+                calculator.storageValue = Float(calculator.resultText)!
             }
+            calculator.firstValue = Float(calculator.resultText)!
         }
         updateUI()
     }

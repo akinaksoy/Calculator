@@ -50,7 +50,6 @@
                                                         </buttonConfiguration>
                                                         <connections>
                                                             <action selector="ResetOnClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eYL-5T-aKC"/>
-                                                            <action selector="deleteOnClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="G7a-wF-Al6"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pTw-bt-2Sn">
