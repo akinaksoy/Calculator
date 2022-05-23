@@ -88,13 +88,14 @@ class ViewController: UIViewController {
         }else if newSign == "+"{
             additionSignButton.isSelected = true
         }
-        
-        if calculator.firstValue == 0 {
-            calculator.firstValue = Float(calculator.resultText)!
-        }else {
-            if calculator.isTypedNewNumber == true {
-                calculate()
-                calculator.isTypedNewNumber = false
+        if calculator.equalClicked == false {
+            if calculator.firstValue == 0 {
+                calculator.firstValue = Float(calculator.resultText)!
+            }else {
+                if calculator.isTypedNewNumber == true {
+                    calculate()
+                    calculator.isTypedNewNumber = false
+                }
             }
         }
         updateUI()
