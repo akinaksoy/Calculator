@@ -22,12 +22,15 @@ class ViewController: UIViewController {
     @IBAction func numberOnClicked(_ sender: UIButton) {
         let number = sender.currentTitle!
         if resultTextIsZero() == true || buttonsIsSelected() == true  || calculator.equalClicked != false{
+            // if the above conditions are met, delete the number on the screen and write a new one
             calculator.resultText = "\(number)"
             setButtonsIsSelectedFalse()
         }else {
+            // If the above conditions are not met, add a new number to the end of the number on the screen.
             calculator.resultText = "\(calculator.resultText)\(number)"
         }
-        calculator.resultText = checkEnteredValue(valueToCheck: calculator.resultText)
+        calculator.resultText = checkCharacterLimitEnteredValue(valueToCheck: calculator.resultText)
+        // if a new number is entered after clicking equals, deactivate clicking equals
         if calculator.equalClicked != false {calculator.equalClicked = false}
         calculator.isTypedNewNumber = true
         updateUI()
@@ -56,6 +59,7 @@ class ViewController: UIViewController {
         if calculator.resultText.contains("e"){
             clearAll()
         }else {
+            // If delete all characters , result text return 0
             if resultTextIsZero() == true || calculator.resultText.count == 1{
                 calculator.resultText = "0"
             }else{
@@ -64,6 +68,7 @@ class ViewController: UIViewController {
                     calculator.resultText.removeLast()
                 }
              }
+            // Update storage and first values
             if calculator.firstValue == calculator.storageValue {
                 calculator.storageValue = Float(calculator.resultText)!
             }
@@ -73,6 +78,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func getPercentOnClicked(_ sender: UIButton) {
+        // if sign buttons are selected, don't get percent of Value
         if buttonsIsSelected() == false {
             if calculator.firstValue == Float(calculator.resultText){
                 calculator.resultText = (Float(calculator.resultText)!/100).cleanDecimalZero
@@ -80,7 +86,6 @@ class ViewController: UIViewController {
             }else {
                 calculator.resultText = (Float(calculator.resultText)!/100).cleanDecimalZero
             }
-            
             updateUI()
         }
     }
@@ -98,10 +103,13 @@ class ViewController: UIViewController {
         }else if newSign == "+"{
             additionSignButton.isSelected = true
         }
+        // If equal is not clicked before this step, calculate with new values
         if calculator.equalClicked == false {
             if calculator.firstValue == 0 {
+                // If no value has been entered before , do not calculate . set the entered value as first value
                 calculator.firstValue = Float(calculator.resultText)!
             }else {
+                // Calculate only after typed new numbers.(Don't calculate after clicked equal,percent buttons)
                 if calculator.isTypedNewNumber == true {
                     calculate()
                     calculator.isTypedNewNumber = false
@@ -114,6 +122,7 @@ class ViewController: UIViewController {
     
     @IBAction func equalOnClicked(_ sender: UIButton) {
         calculator.equalClicked = true
+        // If there is a storage value, assign it to resulttext for calculate again with screen text.
         if calculator.storageValue != 0 {calculator.resultText = String(calculator.storageValue)}
         if buttonsIsSelected() == true{
             calculator.resultText = ResultLabel.text!
@@ -133,11 +142,17 @@ class ViewController: UIViewController {
         if calculator.firstValue == 0 {
           setButtonsIsSelectedFalse()
         }
-        
+        // If numbers doesn't fit to result screen(1 line), font size will decrased.
         if ResultLabel.numberOfVisibleLines > 2 {
             ResultLabel.font = .systemFont(ofSize: 45)
+            if ResultLabel.numberOfVisibleLines > 2 {
+                ResultLabel.font = .systemFont(ofSize: 35)
+                if ResultLabel.numberOfVisibleLines > 2 {
+                    ResultLabel.font = .systemFont(ofSize: 30)
+                }
+            }
         } else {
-            ResultLabel.font = .systemFont(ofSize: 55)
+            ResultLabel.font = .systemFont(ofSize: 52)
         }
    }
     func resultTextIsZero()-> Bool{
@@ -181,6 +196,7 @@ class ViewController: UIViewController {
         }
         calculator.storageValue = calculator.secondValue
         calculator.secondValue = 0
+        // if value more than 10 character, convert value to scentificStyle(4,xxxe+16)
         if String(calculator.firstValue).count > 10 {
             calculator.resultText = String(Float(calculator.firstValue.cleanDecimalZero)!.scentificStyle)
         }else{
@@ -189,7 +205,7 @@ class ViewController: UIViewController {
         
     }
     
-    func checkEnteredValue(valueToCheck : String) -> String{
+    func checkCharacterLimitEnteredValue(valueToCheck : String) -> String{
         var newValue = valueToCheck
         if newValue.contains(".") == true{
             if newValue.count > 10 {
