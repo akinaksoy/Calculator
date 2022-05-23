@@ -9,14 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var firstValue : Float = 0
-    var secondValue : Float = 0
-    var storageValue : Float = 0
-    var result : Float = 0
-    var resultText : String = "0"
-    var currentSign : String = ""
-    var isTypedNewNumber = false
-    var equalClicked = false
+    var calculator = Calculator()
     
     @IBOutlet weak var ResultLabel: UILabel!
     @IBOutlet weak var divideSignButton: UIButton!
@@ -25,13 +18,106 @@ class ViewController: UIViewController {
     @IBOutlet weak var additionSignButton: UIButton!
     @IBOutlet weak var equalSignButton: UIButton!
     
+    
+    @IBAction func numberOnClicked(_ sender: UIButton) {
+        let number = sender.currentTitle!
+        if resultTextIsZero() == true || buttonsIsSelected() == true  || calculator.equalClicked != false{
+            calculator.resultText = "\(number)"
+            setButtonsIsSelectedFalse()
+        }else {
+            calculator.resultText = "\(calculator.resultText)\(number)"
+        }
+        calculator.resultText = checkEnteredValue(valueToCheck: calculator.resultText)
+        if calculator.equalClicked != false {calculator.equalClicked = false}
+        calculator.isTypedNewNumber = true
+        updateUI()
+    }
+    
+    @IBAction func dotButtonOnClicked(_ sender: UIButton) {
+        let character = "."
+        if calculator.resultText.contains(".") != true {
+            setButtonsIsSelectedFalse()
+            calculator.resultText = "\(calculator.resultText)\(character)"
+        }
+        if calculator.equalClicked != false {
+            calculator.resultText = "0."
+            calculator.equalClicked = false
+        }
+        updateUI()
+    }
+    
+    
+    @IBAction func ResetOnClicked(_ sender: UIButton) {
+        clearAll()
+        updateUI()
+    }
+    
+    @IBAction func deleteOnClicked(_ sender: UIButton) {
+        if calculator.resultText.contains("e"){
+            clearAll()
+        }else {
+            if resultTextIsZero() == true || calculator.resultText.count == 1{
+                calculator.resultText = "0"
+                calculator.firstValue = Float(calculator.resultText)!
+            }else{
+                calculator.resultText.removeLast()
+                if calculator.resultText.last == "."{
+                    calculator.resultText.removeLast()
+                }
+                calculator.firstValue = Float(calculator.resultText)!
+            }
+        }
+        updateUI()
+    }
+    
+    @IBAction func getPercentOnClicked(_ sender: UIButton) {
+        calculator.resultText = String(Double(calculator.resultText)!/1000)
+        updateUI()
+    }
+    
+    @IBAction func signButtonOnClicked(_ sender: UIButton) {
+        let newSign = sender.currentTitle!
+        setButtonsIsSelectedFalse()
+        
+        if newSign == "/" {
+            divideSignButton.isSelected = true
+        }else if newSign == "X"{
+            multiplySignButton.isSelected = true
+        }else if newSign == "-"{
+            subtractionSignButton.isSelected = true
+        }else if newSign == "+"{
+            additionSignButton.isSelected = true
+        }
+        
+        if calculator.firstValue == 0 {
+            calculator.firstValue = Float(calculator.resultText)!
+        }else {
+            if calculator.isTypedNewNumber == true {
+                calculate()
+                calculator.isTypedNewNumber = false
+            }
+        }
+        updateUI()
+        calculator.currentSign = newSign
+    }
+    
+    @IBAction func equalOnClicked(_ sender: UIButton) {
+        setButtonsIsSelectedFalse()
+        calculator.equalClicked = true
+        if calculator.storageValue != 0 {calculator.resultText = String(calculator.storageValue)}
+        calculate()
+        calculator.currentSign = ""
+        updateUI()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
     
     func updateUI(){
-        ResultLabel.text = resultText
-        if firstValue == 0 {
+        ResultLabel.text = calculator.resultText
+        if calculator.firstValue == 0 {
           setButtonsIsSelectedFalse()
         }
         
@@ -42,17 +128,17 @@ class ViewController: UIViewController {
         }
    }
     func resultTextIsZero()-> Bool{
-        if resultText == "0" {
+        if calculator.resultText == "0" {
             return true
         }else {
             return false
         }
     }
     func clearAll() {
-        resultText = "0"
-        firstValue = 0
-        secondValue = 0
-        storageValue = 0
+        calculator.resultText = "0"
+        calculator.firstValue = 0
+        calculator.secondValue = 0
+        calculator.storageValue = 0
     }
     func setButtonsIsSelectedFalse() {
         additionSignButton.isSelected = false
@@ -70,25 +156,25 @@ class ViewController: UIViewController {
     }
     
     func calculate(){
-        if currentSign == "/" {
-            secondValue = Float(resultText)!
-            firstValue = firstValue / secondValue
-        }else if currentSign == "X"{
-            secondValue = Float(resultText)!
-            firstValue = firstValue * secondValue
-        }else if currentSign == "-"{
-            secondValue = Float(resultText)!
-            firstValue = firstValue - secondValue
-        }else if currentSign == "+"{
-            secondValue = Float(resultText)!
-            firstValue = firstValue + secondValue
+        if calculator.currentSign == "/" {
+            calculator.secondValue = Float(calculator.resultText)!
+            calculator.firstValue = calculator.firstValue / calculator.secondValue
+        }else if calculator.currentSign == "X"{
+            calculator.secondValue = Float(calculator.resultText)!
+            calculator.firstValue = calculator.firstValue * calculator.secondValue
+        }else if calculator.currentSign == "-"{
+            calculator.secondValue = Float(calculator.resultText)!
+            calculator.firstValue = calculator.firstValue - calculator.secondValue
+        }else if calculator.currentSign == "+"{
+            calculator.secondValue = Float(calculator.resultText)!
+            calculator.firstValue = calculator.firstValue + calculator.secondValue
         }
-        storageValue = secondValue
-        secondValue = 0
-        if String(firstValue).count > 10 {
-            resultText = String(Float(firstValue.cleanDecimalZero)!.scentificStyle)
+        calculator.storageValue = calculator.secondValue
+        calculator.secondValue = 0
+        if String(calculator.firstValue).count > 10 {
+            calculator.resultText = String(Float(calculator.firstValue.cleanDecimalZero)!.scentificStyle)
         }else{
-            resultText = String(firstValue.cleanDecimalZero)
+            calculator.resultText = String(calculator.firstValue.cleanDecimalZero)
         }
         
     }
@@ -108,96 +194,6 @@ class ViewController: UIViewController {
     }
     
  
-    @IBAction func numberOnClicked(_ sender: UIButton) {
-        let number = sender.currentTitle!
-         if resultTextIsZero() == true || buttonsIsSelected() == true  || equalClicked != false{
-            resultText = "\(number)"
-            setButtonsIsSelectedFalse()
-        }else {
-            resultText = "\(resultText)\(number)"
-        }
-        resultText = checkEnteredValue(valueToCheck: resultText)
-        if equalClicked != false {equalClicked = false}
-        isTypedNewNumber = true
-        updateUI()
-    }
-    
-    @IBAction func dotButtonOnClicked(_ sender: UIButton) {
-        let character = "."
-        if resultText.contains(".") != true {
-            setButtonsIsSelectedFalse()
-            resultText = "\(resultText)\(character)"
-         }
-        if equalClicked != false {
-            resultText = "0."
-            equalClicked = false
-        }
-        updateUI()
-    }
-    
-
-    @IBAction func ResetOnClicked(_ sender: UIButton) {
-        clearAll()
-        updateUI()
-    }
-    
-    @IBAction func deleteOnClicked(_ sender: UIButton) {
-        if resultText.contains("e"){
-            clearAll()
-        }else {
-            if resultTextIsZero() == true || resultText.count == 1{
-                resultText = "0"
-                firstValue = Float(resultText)!
-            }else{
-                resultText.removeLast()
-                if resultText.last == "."{
-                    resultText.removeLast()
-                }
-                firstValue = Float(resultText)!
-            }
-        }
-       updateUI()
-    }
-    
-    @IBAction func getPercentOnClicked(_ sender: UIButton) {
-        resultText = String(Double(resultText)!/1000)
-        updateUI()
-    }
-
-    @IBAction func signButtonOnClicked(_ sender: UIButton) {
-        let newSign = sender.currentTitle!
-        setButtonsIsSelectedFalse()
-        
-        if newSign == "/" {
-            divideSignButton.isSelected = true
-        }else if newSign == "X"{
-            multiplySignButton.isSelected = true
-        }else if newSign == "-"{
-            subtractionSignButton.isSelected = true
-        }else if newSign == "+"{
-            additionSignButton.isSelected = true
-        }
-        
-        if firstValue == 0 {
-            firstValue = Float(resultText)!
-        }else {
-            if isTypedNewNumber == true {
-                calculate()
-                isTypedNewNumber = false
-            }
-        }
-        updateUI()
-        currentSign = newSign
-    }
-    
-    @IBAction func equalOnClicked(_ sender: UIButton) {
-        setButtonsIsSelectedFalse()
-        equalClicked = true
-        if storageValue != 0 {resultText = String(storageValue)}
-        calculate()
-        updateUI()
-    }
-    
 }
 
 extension Float {
