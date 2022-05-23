@@ -251,17 +251,19 @@
                                                             <action selector="numberOnClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ckg-Rn-4Tl"/>
                                                         </connections>
                                                     </button>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="08M-wj-16y">
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="1" translatesAutoresizingMaskIntoConstraints="NO" id="08M-wj-16y">
                                                         <rect key="frame" x="207.5" y="0.0" width="206.5" height="88"/>
                                                         <subviews>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3Ot-iD-37k">
                                                                 <rect key="frame" x="0.0" y="0.0" width="103" height="88"/>
                                                                 <color key="backgroundColor" red="0.1235707179" green="0.32466363910000001" blue="0.45993506909999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
                                                                 <color key="tintColor" red="0.93874722720000003" green="0.93874722720000003" blue="0.93874722720000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                <state key="normal" title="Button"/>
-                                                                <buttonConfiguration key="configuration" style="plain" title=".">
-                                                                    <fontDescription key="titleFontDescription" type="system" pointSize="30"/>
-                                                                </buttonConfiguration>
+                                                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                                                <state key="normal" title="."/>
+                                                                <connections>
+                                                                    <action selector="dotButtonOnClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6mu-Dk-qnm"/>
+                                                                </connections>
                                                             </button>
                                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="lOZ-8G-jku">
                                                                 <rect key="frame" x="104" y="0.0" width="102.5" height="88"/>

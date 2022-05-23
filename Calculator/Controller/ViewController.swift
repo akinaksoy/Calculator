@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         
     }
     func resultTextIsZero()-> Bool{
-        if Double(resultText)! == 0 {
+        if Float(resultText)! == 0 {
             return true
         }else {
             return false
@@ -54,6 +54,15 @@ class ViewController: UIViewController {
         updateUI()
     }
     
+    @IBAction func dotButtonOnClicked(_ sender: UIButton) {
+        let character = "."
+        if resultText.contains(".") != true {
+            setButtonsIsSelectedFalse()
+            resultText = "\(resultText)\(character)"
+            if currentSign == "=" {currentSign = ""}
+            updateUI()
+        }
+    }
     
 
     @IBAction func ResetOnClicked(_ sender: UIButton) {
