@@ -102,11 +102,13 @@ class ViewController: UIViewController {
     }
     
     @IBAction func equalOnClicked(_ sender: UIButton) {
-        setButtonsIsSelectedFalse()
         calculator.equalClicked = true
         if calculator.storageValue != 0 {calculator.resultText = String(calculator.storageValue)}
+        if buttonsIsSelected() == true{
+            calculator.resultText = ResultLabel.text!
+        }
         calculate()
-        calculator.currentSign = ""
+        setButtonsIsSelectedFalse()
         updateUI()
     }
     
@@ -156,17 +158,14 @@ class ViewController: UIViewController {
     }
     
     func calculate(){
+        calculator.secondValue = Float(calculator.resultText)!
         if calculator.currentSign == "/" {
-            calculator.secondValue = Float(calculator.resultText)!
             calculator.firstValue = calculator.firstValue / calculator.secondValue
         }else if calculator.currentSign == "X"{
-            calculator.secondValue = Float(calculator.resultText)!
             calculator.firstValue = calculator.firstValue * calculator.secondValue
         }else if calculator.currentSign == "-"{
-            calculator.secondValue = Float(calculator.resultText)!
             calculator.firstValue = calculator.firstValue - calculator.secondValue
         }else if calculator.currentSign == "+"{
-            calculator.secondValue = Float(calculator.resultText)!
             calculator.firstValue = calculator.firstValue + calculator.secondValue
         }
         calculator.storageValue = calculator.secondValue
