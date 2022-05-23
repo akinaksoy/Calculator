@@ -52,6 +52,7 @@ class ViewController: UIViewController {
         }else {
             resultText = "\(resultText)\(number)"
         }
+        resultText = checkEnteredValue(valueToCheck: resultText)
         if equalClicked != false {equalClicked = false}
         isTypedNewNumber = true
         updateUI()
@@ -166,6 +167,20 @@ class ViewController: UIViewController {
         previousValue = value2
         value2 = 0
         resultText = String(value1.cleanZero)
+    }
+    
+    func checkEnteredValue(valueToCheck : String) -> String{
+        var newValue = valueToCheck
+        if newValue.contains(".") == true{
+            if newValue.count > 10 {
+                newValue.removeLast()
+            }
+        }else {
+            if newValue.count > 9 {
+                newValue.removeLast()
+            }
+        }
+        return newValue
     }
 }
 
