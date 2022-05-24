@@ -96,12 +96,16 @@ class ViewController: UIViewController {
         
         if newSign == "/" {
             divideSignButton.isSelected = true
+            divideSignButton.setBackgroundColor(.orange, forState: .selected)
         }else if newSign == "X"{
             multiplySignButton.isSelected = true
+            multiplySignButton.setBackgroundColor(.orange, forState: .selected)
         }else if newSign == "-"{
             subtractionSignButton.isSelected = true
+            subtractionSignButton.setBackgroundColor(.orange, forState: .selected)
         }else if newSign == "+"{
             additionSignButton.isSelected = true
+            additionSignButton.setBackgroundColor(.orange, forState: .selected)
         }
         // If equal is not clicked before this step, calculate with new values
         if calculator.equalClicked == false {
@@ -170,9 +174,13 @@ class ViewController: UIViewController {
     }
     func setButtonsIsSelectedFalse() {
         additionSignButton.isSelected = false
+        additionSignButton.setBackgroundColor(UIColor(named: "ButtonColor")!, forState: .selected)
         subtractionSignButton.isSelected = false
+        subtractionSignButton.setBackgroundColor(UIColor(named: "ButtonColor")!, forState: .selected)
         multiplySignButton.isSelected = false
+        multiplySignButton.setBackgroundColor(UIColor(named: "ButtonColor")!, forState: .selected)
         divideSignButton.isSelected = false
+        divideSignButton.setBackgroundColor(UIColor(named: "ButtonColor")!, forState: .selected)
     }
     
     func buttonsIsSelected()-> Bool {
@@ -243,4 +251,14 @@ extension UILabel {
         let lineHeight = font.lineHeight
         return Int(ceil(textHeight / lineHeight))
     }
+}
+extension UIButton {
+  func setBackgroundColor(_ color: UIColor, forState controlState: UIControl.State) {
+    let colorImage = UIGraphicsImageRenderer(size: CGSize(width: 1, height: 1)).image { _ in
+      color.setFill()
+      UIBezierPath(rect: CGRect(x: 0, y: 0, width: 1, height: 1)).fill()
+    }
+    setTitleColor(.white, for: controlState)
+    setBackgroundImage(colorImage, for: controlState)
+  }
 }
