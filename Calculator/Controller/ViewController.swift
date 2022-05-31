@@ -10,6 +10,8 @@ import UIKit
 class ViewController: UIViewController {
 
     private var calculator = Calculator()
+    let sign = Enums.Sign.self
+    let numbers = Enums.Numbers.self
     //MARK: IBOutlet
     @IBOutlet weak var ResultLabel: UILabel!
     @IBOutlet weak var divideSignButton: UIButton!
@@ -38,7 +40,7 @@ class ViewController: UIViewController {
     
     @IBAction func dotButtonOnClicked(_ sender: UIButton) {
         let character = "."
-        if calculator.resultText.contains(".") != true {
+        if calculator.resultText.contains(character) != true {
             setButtonsIsSelectedFalse()
             calculator.resultText = "\(calculator.resultText)\(character)"
         }
@@ -96,18 +98,21 @@ class ViewController: UIViewController {
         guard let newSign = sender.currentTitle else {return}
         setButtonsIsSelectedFalse()
         
-        if newSign == "/" {
-            divideSignButton.isSelected = true
-            divideSignButton.setBackgroundColor(.orange, forState: .selected)
-        }else if newSign == "X"{
-            multiplySignButton.isSelected = true
-            multiplySignButton.setBackgroundColor(.orange, forState: .selected)
-        }else if newSign == "-"{
-            subtractionSignButton.isSelected = true
-            subtractionSignButton.setBackgroundColor(.orange, forState: .selected)
-        }else if newSign == "+"{
+        switch newSign {
+        case sign.Plus.rawValue:
             additionSignButton.isSelected = true
             additionSignButton.setBackgroundColor(.orange, forState: .selected)
+        case sign.Minus.rawValue:
+            subtractionSignButton.isSelected = true
+            subtractionSignButton.setBackgroundColor(.orange, forState: .selected)
+        case sign.Divide.rawValue:
+            divideSignButton.isSelected = true
+            divideSignButton.setBackgroundColor(.orange, forState: .selected)
+        case sign.multiply.rawValue:
+            multiplySignButton.isSelected = true
+            multiplySignButton.setBackgroundColor(.orange, forState: .selected)
+        default:
+            return
         }
         // If equal is not clicked before this step, calculate with new values
         if calculator.equalClicked == false {
@@ -164,9 +169,10 @@ class ViewController: UIViewController {
         }
    }
     func resultTextIsZero()-> Bool{
-        if calculator.resultText == "0" {
+        switch calculator.resultText {
+        case numbers.Zero.rawValue :
             return true
-        }else {
+        default:
             return false
         }
     }
@@ -198,14 +204,17 @@ class ViewController: UIViewController {
     func calculate(){
         guard let result = Float(calculator.resultText) else {return}
         calculator.secondValue = result
-        if calculator.currentSign == "/" {
+        switch calculator.currentSign {
+        case sign.Divide.rawValue:
             calculator.firstValue = calculator.firstValue / calculator.secondValue
-        }else if calculator.currentSign == "X"{
+        case sign.multiply.rawValue:
             calculator.firstValue = calculator.firstValue * calculator.secondValue
-        }else if calculator.currentSign == "-"{
+        case sign.Minus.rawValue:
             calculator.firstValue = calculator.firstValue - calculator.secondValue
-        }else if calculator.currentSign == "+"{
+        case sign.Plus.rawValue:
             calculator.firstValue = calculator.firstValue + calculator.secondValue
+        default:
+            return
         }
         calculator.storageValue = calculator.secondValue
         calculator.secondValue = 0
