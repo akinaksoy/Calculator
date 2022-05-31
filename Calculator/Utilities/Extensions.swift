@@ -8,18 +8,19 @@
 import Foundation
 import UIKit
 
+
 extension Float {
-    var CleanDecimalZero : String {
+    var CleanDecimalZero: String {
        return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
     }
     struct number {static var formatter = NumberFormatter()}
     
     var ScentificStyle: String {
-        Number.formatter.numberStyle = .scientific
-        Number.formatter.positiveFormat = "0.#########E+0"
-        Number.formatter.exponentSymbol = "e"
-        let number = NSNumber(value: self)
-        return Number.formatter.string(from :number) ?? ""
+        number.formatter.numberStyle = .scientific
+        number.formatter.positiveFormat = "0.#########E+0"
+        number.formatter.exponentSymbol = "e"
+        let numberType = NSNumber(value: self)
+        return number.formatter.string(from :numberType) ?? ""
     }
 }
 extension UILabel {

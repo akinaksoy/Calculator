@@ -85,10 +85,10 @@ class ViewController: UIViewController {
         if buttonsIsSelected() == false {
             guard let result = Float(calculator.resultText) else {return}
             if calculator.firstValue == result{
-                calculator.resultText = (result/100).cleanDecimalZero
+                calculator.resultText = (result/100).CleanDecimalZero
                 calculator.firstValue = result
             }else {
-                calculator.resultText = (result/100).cleanDecimalZero
+                calculator.resultText = (result/100).CleanDecimalZero
             }
             updateUI()
         }
@@ -101,16 +101,16 @@ class ViewController: UIViewController {
         switch newSign {
         case sign.Plus.rawValue:
             additionSignButton.isSelected = true
-            additionSignButton.setBackgroundColor(.orange, forState: .selected)
+            additionSignButton.SetBackgroundColor(.orange, forState: .selected)
         case sign.Minus.rawValue:
             subtractionSignButton.isSelected = true
-            subtractionSignButton.setBackgroundColor(.orange, forState: .selected)
+            subtractionSignButton.SetBackgroundColor(.orange, forState: .selected)
         case sign.Divide.rawValue:
             divideSignButton.isSelected = true
-            divideSignButton.setBackgroundColor(.orange, forState: .selected)
+            divideSignButton.SetBackgroundColor(.orange, forState: .selected)
         case sign.multiply.rawValue:
             multiplySignButton.isSelected = true
-            multiplySignButton.setBackgroundColor(.orange, forState: .selected)
+            multiplySignButton.SetBackgroundColor(.orange, forState: .selected)
         default:
             return
         }
@@ -156,11 +156,11 @@ class ViewController: UIViewController {
           setButtonsIsSelectedFalse()
         }
         // If numbers doesn't fit to result screen(1 line), font size will decrased.
-        if ResultLabel.numberOfVisibleLines > 2 {
+        if ResultLabel.NumberOfVisibleLines > 2 {
             ResultLabel.font = .systemFont(ofSize: 45)
-            if ResultLabel.numberOfVisibleLines > 2 {
+            if ResultLabel.NumberOfVisibleLines > 2 {
                 ResultLabel.font = .systemFont(ofSize: 35)
-                if ResultLabel.numberOfVisibleLines > 2 {
+                if ResultLabel.NumberOfVisibleLines > 2 {
                     ResultLabel.font = .systemFont(ofSize: 30)
                 }
             }
@@ -184,13 +184,13 @@ class ViewController: UIViewController {
     }
     func setButtonsIsSelectedFalse() {
         additionSignButton.isSelected = false
-        additionSignButton.setBackgroundColor(UIColor(named: "ButtonColor")!, forState: .normal)
+        additionSignButton.SetBackgroundColor(UIColor(named: "ButtonColor")!, forState: .normal)
         subtractionSignButton.isSelected = false
-        subtractionSignButton.setBackgroundColor(UIColor(named: "ButtonColor")!, forState: .normal)
+        subtractionSignButton.SetBackgroundColor(UIColor(named: "ButtonColor")!, forState: .normal)
         multiplySignButton.isSelected = false
-        multiplySignButton.setBackgroundColor(UIColor(named: "ButtonColor")!, forState: .normal)
+        multiplySignButton.SetBackgroundColor(UIColor(named: "ButtonColor")!, forState: .normal)
         divideSignButton.isSelected = false
-        divideSignButton.setBackgroundColor(UIColor(named: "ButtonColor")!, forState: .normal)
+        divideSignButton.SetBackgroundColor(UIColor(named: "ButtonColor")!, forState: .normal)
     }
     
     func buttonsIsSelected()-> Bool {
@@ -220,10 +220,10 @@ class ViewController: UIViewController {
         calculator.secondValue = 0
         // if value more than 10 character, convert value to scentificStyle(4,xxxe+16)
         if String(calculator.firstValue).count > 10 {
-            guard let firstValueWithScentific = Float(calculator.firstValue.cleanDecimalZero)?.scentificStyle else {return}
+            guard let firstValueWithScentific = Float(calculator.firstValue.CleanDecimalZero)?.ScentificStyle else {return}
             calculator.resultText = String(firstValueWithScentific)
         }else{
-            calculator.resultText = String(calculator.firstValue.cleanDecimalZero)
+            calculator.resultText = String(calculator.firstValue.CleanDecimalZero)
         }
         
     }
@@ -243,37 +243,4 @@ class ViewController: UIViewController {
     }
     
  
-}
-
-extension Float {
-    var cleanDecimalZero: String {
-       return self.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", self) : String(self)
-    }
-    struct Number {static var formatter = NumberFormatter()}
-    
-    var scentificStyle: String {
-        Number.formatter.numberStyle = .scientific
-        Number.formatter.positiveFormat = "0.#########E+0"
-        Number.formatter.exponentSymbol = "e"
-        let number = NSNumber(value: self)
-        return Number.formatter.string(from :number) ?? ""
-    }
-}
-extension UILabel {
-    var numberOfVisibleLines: Int {
-        let maxSize = CGSize(width: frame.size.width, height: CGFloat(MAXFLOAT))
-        let textHeight = sizeThatFits(maxSize).height
-        let lineHeight = font.lineHeight
-        return Int(ceil(textHeight / lineHeight))
-    }
-}
-extension UIButton {
-  func setBackgroundColor(_ color: UIColor, forState controlState: UIControl.State) {
-    let colorImage = UIGraphicsImageRenderer(size: CGSize(width: 1, height: 1)).image { _ in
-      color.setFill()
-      UIBezierPath(rect: CGRect(x: 0, y: 0, width: 1, height: 1)).fill()
-    }
-    setTitleColor(.white, for: controlState)
-    setBackgroundImage(colorImage, for: controlState)
-  }
 }
