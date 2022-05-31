@@ -10,7 +10,7 @@ import UIKit
 class ViewController: UIViewController {
 
     private var calculator = Calculator()
-    
+    //MARK: IBOutlet
     @IBOutlet weak var ResultLabel: UILabel!
     @IBOutlet weak var divideSignButton: UIButton!
     @IBOutlet weak var multiplySignButton: UIButton!
@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var additionSignButton: UIButton!
     @IBOutlet weak var equalSignButton: UIButton!
     
-    
+    //MARK: IBActions
     @IBAction func numberOnClicked(_ sender: UIButton) {
         let number = sender.currentTitle!
         if resultTextIsZero() == true || buttonsIsSelected() == true  || calculator.equalClicked != false{
@@ -144,7 +144,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
     }
-    
+    //MARK: General Functions
     func updateUI(){
         ResultLabel.text = calculator.resultText
         if calculator.firstValue == 0 {
