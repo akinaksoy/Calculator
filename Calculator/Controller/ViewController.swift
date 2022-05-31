@@ -170,13 +170,14 @@ class ViewController: UIViewController {
     
     func setButtonsIsSelectedFalse() {
         additionSignButton.isSelected = false
-        additionSignButton.SetBackgroundColor(UIColor(named: "ButtonColor")!, forState: .normal)
+        guard let buttonColor = UIColor(named: "ButtonColor") else {return}
+        additionSignButton.SetBackgroundColor((buttonColor), forState: .normal)
         subtractionSignButton.isSelected = false
-        subtractionSignButton.SetBackgroundColor(UIColor(named: "ButtonColor")!, forState: .normal)
+        subtractionSignButton.SetBackgroundColor((buttonColor), forState: .normal)
         multiplySignButton.isSelected = false
-        multiplySignButton.SetBackgroundColor(UIColor(named: "ButtonColor")!, forState: .normal)
+        multiplySignButton.SetBackgroundColor((buttonColor), forState: .normal)
         divideSignButton.isSelected = false
-        divideSignButton.SetBackgroundColor(UIColor(named: "ButtonColor")!, forState: .normal)
+        divideSignButton.SetBackgroundColor((buttonColor), forState: .normal)
     }
     
     func buttonsIsSelected()-> Bool {
@@ -186,7 +187,4 @@ class ViewController: UIViewController {
             return false
         }
     }
-   
-    
- 
 }
