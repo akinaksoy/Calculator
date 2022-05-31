@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     //MARK: IBActions
     @IBAction func numberOnClicked(_ sender: UIButton) {
         let number = sender.currentTitle!
-        if resultTextIsZero() == true || buttonsIsSelected() == true  || calculator.equalClicked != false{
+        if calculateManager.shared.resultTextIsZero(calculatorModel: calculator) == true || buttonsIsSelected() == true  || calculator.equalClicked != false{
             // if the above conditions are met, delete the number on the screen and write a new one
             calculator.resultText = "\(number)"
             setButtonsIsSelectedFalse()
@@ -31,7 +31,7 @@ class ViewController: UIViewController {
             // If the above conditions are not met, add a new number to the end of the number on the screen.
             calculator.resultText = "\(calculator.resultText)\(number)"
         }
-        calculator.resultText = checkCharacterLimitEnteredValue(valueToCheck: calculator.resultText)
+        calculator.resultText = calculateManager.shared.checkCharacterLimitEnteredValue(valueToCheck: calculator.resultText)
         // if a new number is entered after clicking equals, deactivate clicking equals
         if calculator.equalClicked != false {calculator.equalClicked = false}
         calculator.isTypedNewNumber = true
@@ -53,16 +53,16 @@ class ViewController: UIViewController {
     
     
     @IBAction func ResetOnClicked(_ sender: UIButton) {
-        clearAll()
+        calculator = calculateManager.shared.clearAll(calculatorModel: calculator)
         updateUI()
     }
     
     @IBAction func deleteOnClicked(_ sender: UIButton) {
         if calculator.resultText.contains("e"){
-            clearAll()
+            calculator = calculateManager.shared.clearAll(calculatorModel: calculator)
         }else {
             // If delete all characters , result text return 0
-            if resultTextIsZero() == true || calculator.resultText.count == 1{
+            if calculateManager.shared.resultTextIsZero(calculatorModel: calculator) == true || calculator.resultText.count == 1{
                 calculator.resultText = "0"
             }else{
                 calculator.resultText.removeLast()
@@ -123,7 +123,7 @@ class ViewController: UIViewController {
             }else {
                 // Calculate only after typed new numbers.(Don't calculate after clicked equal,percent buttons)
                 if calculator.isTypedNewNumber == true {
-                    calculate()
+                    calculator = calculateManager.shared.calculate(calculatorModel: calculator)
                     calculator.isTypedNewNumber = false
                 }
             }
@@ -140,15 +140,14 @@ class ViewController: UIViewController {
             guard let resultLabelText = ResultLabel.text else {return}
             calculator.resultText = resultLabelText
         }
-        calculate()
+        calculator = calculateManager.shared.calculate(calculatorModel: calculator)
         setButtonsIsSelectedFalse()
         updateUI()
     }
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
     }
+    
     //MARK: General Functions
     func updateUI(){
         ResultLabel.text = calculator.resultText
@@ -168,20 +167,7 @@ class ViewController: UIViewController {
             ResultLabel.font = .systemFont(ofSize: 52)
         }
    }
-    func resultTextIsZero()-> Bool{
-        switch calculator.resultText {
-        case numbers.Zero.rawValue :
-            return true
-        default:
-            return false
-        }
-    }
-    func clearAll() {
-        calculator.resultText = "0"
-        calculator.firstValue = 0
-        calculator.secondValue = 0
-        calculator.storageValue = 0
-    }
+    
     func setButtonsIsSelectedFalse() {
         additionSignButton.isSelected = false
         additionSignButton.SetBackgroundColor(UIColor(named: "ButtonColor")!, forState: .normal)
@@ -200,47 +186,7 @@ class ViewController: UIViewController {
             return false
         }
     }
-    
-    func calculate(){
-        guard let result = Float(calculator.resultText) else {return}
-        calculator.secondValue = result
-        switch calculator.currentSign {
-        case sign.Divide.rawValue:
-            calculator.firstValue = calculator.firstValue / calculator.secondValue
-        case sign.multiply.rawValue:
-            calculator.firstValue = calculator.firstValue * calculator.secondValue
-        case sign.Minus.rawValue:
-            calculator.firstValue = calculator.firstValue - calculator.secondValue
-        case sign.Plus.rawValue:
-            calculator.firstValue = calculator.firstValue + calculator.secondValue
-        default:
-            return
-        }
-        calculator.storageValue = calculator.secondValue
-        calculator.secondValue = 0
-        // if value more than 10 character, convert value to scentificStyle(4,xxxe+16)
-        if String(calculator.firstValue).count > 10 {
-            guard let firstValueWithScentific = Float(calculator.firstValue.CleanDecimalZero)?.ScentificStyle else {return}
-            calculator.resultText = String(firstValueWithScentific)
-        }else{
-            calculator.resultText = String(calculator.firstValue.CleanDecimalZero)
-        }
-        
-    }
-    
-    func checkCharacterLimitEnteredValue(valueToCheck : String) -> String{
-        var newValue = valueToCheck
-        if newValue.contains(".") == true{
-            if newValue.count > 10 {
-                newValue.removeLast()
-            }
-        }else {
-            if newValue.count > 9 {
-                newValue.removeLast()
-            }
-        }
-        return newValue
-    }
+   
     
  
 }
