@@ -15,6 +15,7 @@
 		1F1697CA283AAC1700FEADBE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F1697C8283AAC1700FEADBE /* LaunchScreen.storyboard */; };
 		1F85D27E2846AC3E001C0950 /* calculateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F85D27D2846AC3E001C0950 /* calculateManager.swift */; };
 		1F85D2812846AC80001C0950 /* Sign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F85D2802846AC80001C0950 /* Sign.swift */; };
+		1F85D2832846B1F3001C0950 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F85D2822846B1F3001C0950 /* Extensions.swift */; };
 		1FBB42AE283C071800AD8666 /* AppImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FBB42AD283C071800AD8666 /* AppImage.png */; };
 		1FBB42B0283C2EFE00AD8666 /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBB42AF283C2EFE00AD8666 /* Calculator.swift */; };
 /* End PBXBuildFile section */
@@ -30,6 +31,7 @@
 		1F1697CB283AAC1700FEADBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F85D27D2846AC3E001C0950 /* calculateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calculateManager.swift; sourceTree = "<group>"; };
 		1F85D2802846AC80001C0950 /* Sign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sign.swift; sourceTree = "<group>"; };
+		1F85D2822846B1F3001C0950 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		1FBB42AD283C071800AD8666 /* AppImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppImage.png; sourceTree = "<group>"; };
 		1FBB42AF283C2EFE00AD8666 /* Calculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -139,6 +141,7 @@
 			isa = PBXGroup;
 			children = (
 				1F85D2802846AC80001C0950 /* Sign.swift */,
+				1F85D2822846B1F3001C0950 /* Extensions.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 				1F1697BE283AAC1600FEADBE /* AppDelegate.swift in Sources */,
 				1F85D27E2846AC3E001C0950 /* calculateManager.swift in Sources */,
 				1F1697C0283AAC1600FEADBE /* SceneDelegate.swift in Sources */,
+				1F85D2832846B1F3001C0950 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
