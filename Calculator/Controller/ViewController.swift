@@ -9,7 +9,7 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    var calculator = Calculator()
+    private var calculator = Calculator()
     
     @IBOutlet weak var ResultLabel: UILabel!
     @IBOutlet weak var divideSignButton: UIButton!
@@ -70,7 +70,8 @@ class ViewController: UIViewController {
              }
             // Update storage and first values
             if calculator.firstValue == calculator.storageValue {
-                calculator.storageValue = Float(calculator.resultText)!
+                guard let storageValue = Float(calculator.resultText) else {return}
+                calculator.storageValue = storageValue
             }
             calculator.firstValue = Float(calculator.resultText)!
         }
@@ -80,18 +81,19 @@ class ViewController: UIViewController {
     @IBAction func getPercentOnClicked(_ sender: UIButton) {
         // if sign buttons are selected, don't get percent of Value
         if buttonsIsSelected() == false {
-            if calculator.firstValue == Float(calculator.resultText){
-                calculator.resultText = (Float(calculator.resultText)!/100).cleanDecimalZero
-                calculator.firstValue = Float(calculator.resultText)!
+            guard let result = Float(calculator.resultText) else {return}
+            if calculator.firstValue == result{
+                calculator.resultText = (result/100).cleanDecimalZero
+                calculator.firstValue = result
             }else {
-                calculator.resultText = (Float(calculator.resultText)!/100).cleanDecimalZero
+                calculator.resultText = (result/100).cleanDecimalZero
             }
             updateUI()
         }
     }
     
     @IBAction func signButtonOnClicked(_ sender: UIButton) {
-        let newSign = sender.currentTitle!
+        guard let newSign = sender.currentTitle else {return}
         setButtonsIsSelectedFalse()
         
         if newSign == "/" {
@@ -111,7 +113,8 @@ class ViewController: UIViewController {
         if calculator.equalClicked == false {
             if calculator.firstValue == 0 {
                 // If no value has been entered before , do not calculate . set the entered value as first value
-                calculator.firstValue = Float(calculator.resultText)!
+                guard let result = Float(calculator.resultText) else {return}
+                calculator.firstValue = result
             }else {
                 // Calculate only after typed new numbers.(Don't calculate after clicked equal,percent buttons)
                 if calculator.isTypedNewNumber == true {
@@ -129,7 +132,8 @@ class ViewController: UIViewController {
         // If there is a storage value, assign it to resulttext for calculate again with screen text.
         if calculator.storageValue != 0 {calculator.resultText = String(calculator.storageValue)}
         if buttonsIsSelected() == true{
-            calculator.resultText = ResultLabel.text!
+            guard let resultLabelText = ResultLabel.text else {return}
+            calculator.resultText = resultLabelText
         }
         calculate()
         setButtonsIsSelectedFalse()
@@ -192,7 +196,8 @@ class ViewController: UIViewController {
     }
     
     func calculate(){
-        calculator.secondValue = Float(calculator.resultText)!
+        guard let result = Float(calculator.resultText) else {return}
+        calculator.secondValue = result
         if calculator.currentSign == "/" {
             calculator.firstValue = calculator.firstValue / calculator.secondValue
         }else if calculator.currentSign == "X"{
@@ -206,7 +211,8 @@ class ViewController: UIViewController {
         calculator.secondValue = 0
         // if value more than 10 character, convert value to scentificStyle(4,xxxe+16)
         if String(calculator.firstValue).count > 10 {
-            calculator.resultText = String(Float(calculator.firstValue.cleanDecimalZero)!.scentificStyle)
+            guard let firstValueWithScentific = Float(calculator.firstValue.cleanDecimalZero)?.scentificStyle else {return}
+            calculator.resultText = String(firstValueWithScentific)
         }else{
             calculator.resultText = String(calculator.firstValue.cleanDecimalZero)
         }
