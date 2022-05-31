@@ -14,6 +14,7 @@
 		1F1697C7283AAC1700FEADBE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1F1697C6283AAC1700FEADBE /* Assets.xcassets */; };
 		1F1697CA283AAC1700FEADBE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1F1697C8283AAC1700FEADBE /* LaunchScreen.storyboard */; };
 		1F85D27E2846AC3E001C0950 /* calculateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F85D27D2846AC3E001C0950 /* calculateManager.swift */; };
+		1F85D2812846AC80001C0950 /* Sign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F85D2802846AC80001C0950 /* Sign.swift */; };
 		1FBB42AE283C071800AD8666 /* AppImage.png in Resources */ = {isa = PBXBuildFile; fileRef = 1FBB42AD283C071800AD8666 /* AppImage.png */; };
 		1FBB42B0283C2EFE00AD8666 /* Calculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FBB42AF283C2EFE00AD8666 /* Calculator.swift */; };
 /* End PBXBuildFile section */
@@ -28,6 +29,7 @@
 		1F1697C9283AAC1700FEADBE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		1F1697CB283AAC1700FEADBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F85D27D2846AC3E001C0950 /* calculateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = calculateManager.swift; sourceTree = "<group>"; };
+		1F85D2802846AC80001C0950 /* Sign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sign.swift; sourceTree = "<group>"; };
 		1FBB42AD283C071800AD8666 /* AppImage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppImage.png; sourceTree = "<group>"; };
 		1FBB42AF283C2EFE00AD8666 /* Calculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -63,6 +65,7 @@
 		1F1697BC283AAC1600FEADBE /* Calculator */ = {
 			isa = PBXGroup;
 			children = (
+				1F85D27F2846AC6F001C0950 /* Utilities */,
 				1F85D27C2846AC2A001C0950 /* Manager */,
 				1F85D2792846ABB3001C0950 /* App */,
 				1F1697D4283AAC3300FEADBE /* Controller */,
@@ -130,6 +133,14 @@
 				1F85D27D2846AC3E001C0950 /* calculateManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		1F85D27F2846AC6F001C0950 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				1F85D2802846AC80001C0950 /* Sign.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -206,6 +217,7 @@
 			files = (
 				1F1697C2283AAC1600FEADBE /* ViewController.swift in Sources */,
 				1FBB42B0283C2EFE00AD8666 /* Calculator.swift in Sources */,
+				1F85D2812846AC80001C0950 /* Sign.swift in Sources */,
 				1F1697BE283AAC1600FEADBE /* AppDelegate.swift in Sources */,
 				1F85D27E2846AC3E001C0950 /* calculateManager.swift in Sources */,
 				1F1697C0283AAC1600FEADBE /* SceneDelegate.swift in Sources */,
@@ -357,7 +369,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Calculator/Info.plist;
+				INFOPLIST_FILE = Calculator/Support/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -387,7 +399,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = Calculator/Info.plist;
+				INFOPLIST_FILE = Calculator/Support/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
